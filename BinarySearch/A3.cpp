@@ -38,4 +38,5 @@ int main() {
 	cout << setprecision(20) << r << endl;
  
 	return 0;
+	
 }
