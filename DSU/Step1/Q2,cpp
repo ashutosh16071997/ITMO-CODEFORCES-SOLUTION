@@ -1,0 +1,68 @@
+#include<bits/stdc++.h>
+using namespace std;
+long long int n;
+long long int m;
+vector<long long int>p;
+vector<long long int>r;
+vector<long long int>maxi;
+vector<long long int>mini;
+int findset(int val)
+{
+    if(val == p[val])
+    return val;
+    return p[val] = findset(p[val]);
+
+}
+void unionSet(long long int a, long long int b)   {
+     long long int x = findset(a); 
+      long long int y = findset(b);
+      if(x == y)
+       return;
+      if (r[x]<r[y])
+      {
+          p[x] = y;
+          r[y]+=r[x];
+          mini[y] = min(mini[y], mini[x]);
+          maxi[y] = max(maxi[y], maxi[x]);
+      }
+      else
+      {
+          p[y] = x;
+          r[x]+=r[y];
+          mini[x] = min(mini[x], mini[y]);
+          maxi[x] = max(maxi[x], maxi[y]);
+      }
+  }
+
+
+int main()
+{
+    cin>>n>>m;
+    p.resize(n+1,0);
+    r.resize(n+1,1);
+    maxi.resize(n+1,0);
+    mini.resize(n+1,0);
+    for(int i = 0;i<n+1;i++)
+    { p[i] = i;
+      maxi[i] = i;
+      mini[i] = i;
+    }
+    while(m--)
+    {
+        string str;long long int a;long long int b;
+        cin>>str;
+        if (str == "union")
+        {   cin>>a>>b;
+            unionSet(a,b);
+        }
+        
+    else
+     {   cin>>a;
+         long long int parent = findset(a);
+         long long int number = r[parent];
+         cout<<mini[parent]<<' '<<maxi[parent]<<' '<<number<<endl;
+     }
+
+    }
+    return 0;
+}
